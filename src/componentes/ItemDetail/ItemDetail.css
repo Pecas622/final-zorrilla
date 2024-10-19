@@ -1,0 +1,56 @@
+/* Estilo general para el contenedor del ítem */
+.contenedorItem {
+    background-color: #f3e5ab; /* Color crema envejecido */
+    padding: 20px;
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    font-family: 'Georgia', serif; /* Tipografía clásica */
+    color: #4b3f2f; /* Marrón oscuro */
+    text-align: center;
+    margin: 20px auto; /* Centrar y aplicar un margen */
+    max-width: 500px; /* Ajuste del ancho máximo */
+}
+
+/* Estilo para el título del ítem */
+.contenedorItem h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para el precio */
+.contenedorItem h3 {
+    font-size: 20px;
+    margin: 5px 0;
+}
+
+/* Estilo para la imagen del ítem */
+.contenedorItem img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 15px;
+}
+
+/* Estilo para la descripción del ítem */
+.contenedorItem p {
+    font-size: 16px;
+    color: #4b3f2f; /* Marrón oscuro */
+    margin-bottom: 15px;
+}
+
+/* Estilo para el enlace de finalizar compra */
+.contenedorItem a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #d4a373; /* Marrón claro */
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.contenedorItem a:hover {
+    background-color: #a86a3c; /* Un tono más oscuro al pasar el mouse */
+}

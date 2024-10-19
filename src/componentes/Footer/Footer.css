@@ -1,0 +1,53 @@
+/* Footer.css */
+.footer {
+    background-color: #4b2a18; /* Color de fondo marrón oscuro */
+    color: #f3e5ab; /* Color de texto claro */
+    padding: 40px 20px; /* Espaciado mayor para el footer */
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Sombra para un efecto de elevación */
+}
+
+.footer-content h3 {
+    margin: 0;
+    font-size: 1.8rem; /* Aumentar tamaño del título */
+    font-weight: bold; /* Hacer el título más prominente */
+}
+
+.footer-content p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+.footer-content a {
+    color: #f3e5ab; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+}
+
+.footer-content a:hover {
+    text-decoration: underline; /* Subrayar al pasar el mouse */
+}
+
+.social-icons {
+    color: beige ;
+    margin-top: 15px;
+}
+
+.social-icon {
+    font-size: 30px; /* Tamaño de los íconos */
+    margin: 0 15px; /* Espacio entre íconos */
+    color: #f3e5ab; /* Color de los íconos */
+    transition: transform 0.3s ease; /* Efecto de hover */
+}
+
+.social-icon:hover {
+    transform: scale(1.2); /* Aumentar tamaño del ícono al pasar el ratón */
+    color: #d4a373; /* Cambiar color al hacer hover */
+}
+
+.footer-titulo{
+    color: beige;
+}
+

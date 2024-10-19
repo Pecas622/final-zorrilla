@@ -1,0 +1,10 @@
+.carrito {
+    font-size: 24px; /* Ajusta el tamaño del ícono */
+    color: #000; /* Cambia el color del ícono */
+    cursor: pointer; /* Añade un cursor de puntero para hacerlo interactivo */
+    transition: transform 0.2s ease;
+}
+
+.carrito:hover {
+    transform: scale(1.1); /* Efecto de agrandamiento en hover */
+}

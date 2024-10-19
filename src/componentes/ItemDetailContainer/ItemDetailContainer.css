@@ -1,0 +1,56 @@
+/* Estilo general para la tarjeta del producto */
+.product-card {
+    background-color: #f3e5ab; /* Color crema envejecido */
+    padding: 15px;
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    font-family: 'Georgia', serif; /* Tipografía clásica */
+    color: #4b3f2f; /* Marrón oscuro */
+    text-align: center;
+    margin: 20px auto; /* Centrar y aplicar un margen */
+    max-width: 300px; /* Ajuste del ancho máximo */
+    transition: transform 0.3s ease; /* Transición para el hover */
+}
+
+.product-card:hover {
+    transform: scale(1.05); /* Efecto al pasar el mouse */
+}
+
+/* Estilo para la imagen del producto */
+.product-card img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 10px;
+}
+
+/* Estilo para la información del producto */
+.product-card-info h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: #4b3f2f; /* Marrón oscuro */
+}
+
+.product-card-info p {
+    font-size: 16px;
+    color: #4b3f2f; /* Texto en marrón oscuro */
+    margin: 5px 0;
+}
+
+/* Estilo para el botón de ver detalles */
+.product-card-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #d4a373; /* Marrón claro */
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.product-card-button:hover {
+    background-color: #a86a3c; /* Un tono más oscuro al pasar el mouse */
+}
