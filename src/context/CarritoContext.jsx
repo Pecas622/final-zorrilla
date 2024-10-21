@@ -7,6 +7,7 @@ export const CarritoContext = createContext({
     total: 0,
     cantidadTotal: 0,
     loading: false,
+    carritoVaciado: false, // Nuevo estado para el carrito vaciado
 });
 
 // 3) Proveedor del contexto
@@ -15,9 +16,7 @@ export const CarritoProvider = ({ children }) => {
     const [total, setTotal] = useState(0);
     const [cantidadTotal, setCantidadTotal] = useState(0);
     const [loading, setLoading] = useState(false);
-
-    // Verificar el estado del carrito por consola:
-    console.log(carrito);
+    const [carritoVaciado, setCarritoVaciado] = useState(false); // Nuevo estado
 
     // Función para agregar productos al carrito
     const agregarAlCarrito = (item, cantidad) => {
@@ -25,8 +24,6 @@ export const CarritoProvider = ({ children }) => {
     
         if (!productoExistente) {
             setCarrito((prev) => [...prev, { item, cantidad }]);
-            // Verifica aquí que item tiene propiedades válidas
-            console.log("Producto agregado:", item);
             setCantidadTotal((prev) => prev + cantidad);
             setTotal((prev) => prev + item.precio * cantidad);
         } else {
@@ -43,6 +40,7 @@ export const CarritoProvider = ({ children }) => {
             setTotal((prev) => prev + item.precio * cantidad);
         }
     
+        // Alerta cuando se agrega un producto (opcional)
         Swal.fire({
             icon: 'success',
             title: 'Producto agregado',
@@ -64,6 +62,8 @@ export const CarritoProvider = ({ children }) => {
                 prev - productoEliminado.item.precio * productoEliminado.cantidad
         );
         setLoading(false); // Finalizar la carga
+        
+        // Alerta cuando se elimina un producto (opcional)
         Swal.fire({
             icon: 'info',
             title: 'Producto eliminado',
@@ -72,32 +72,23 @@ export const CarritoProvider = ({ children }) => {
         });
     };
 
-    // Función para vaciar todo el carrito
+    // Función para vaciar todo el carrito y mostrar mensaje de compra exitosa
     const vaciarCarrito = () => {
         setLoading(true); // Iniciar la carga
+        
+        // Vaciar el carrito y resetear los valores
+        setCarrito([]);
+        setCantidadTotal(0);
+        setTotal(0);
+        setCarritoVaciado(true); // Marcar el carrito como vaciado
+        setLoading(false); // Finalizar la carga
+        
+        // Mostrar mensaje de compra exitosa
         Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás deshacer esta acción!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, vaciar',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                setCarrito([]);
-                setCantidadTotal(0);
-                setTotal(0);
-                setLoading(false); // Finalizar la carga
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Carrito vaciado',
-                    text: 'Todos los productos han sido eliminados del carrito.',
-                    timer: 2000,
-                });
-            } else {
-                setLoading(false); // Finalizar la carga si se cancela
-            }
+            icon: 'success',
+            title: '¡Compra realizada!',
+            text: 'Tu compra ha sido realizada con éxito.',
+            timer: 3000, // Puedes ajustar el tiempo que se muestra el mensaje
         });
     };
 
@@ -111,6 +102,7 @@ export const CarritoProvider = ({ children }) => {
                 eliminarProducto,
                 vaciarCarrito,
                 loading, // Estado de carga
+                carritoVaciado, // Estado de carrito vaciado
             }}
         >
             {children}

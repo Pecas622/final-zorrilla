@@ -12,9 +12,10 @@ const Checkout = () => {
     const [email, setEmail] = useState("");
     const [emailConfirmacion, setEmailConfirmacion] = useState("");
     const [error, setError] = useState("");
+    const [ordenId, setOrdenId] = useState(null); // Nuevo estado para el ID de la orden
 
     const { carrito, vaciarCarrito, total } = useContext(CarritoContext);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const manejadorFormulario = async (e) => {
         e.preventDefault();
@@ -29,13 +30,14 @@ const Checkout = () => {
             return;
         }
 
-        
-        const stockSuficiente = await Promise.all(carrito.map(async (producto) => {
-            const productoRef = doc(db, "productos", producto.item.id);
-            const productoDoc = await getDoc(productoRef);
-            const stockActual = productoDoc.data().stock;
-            return stockActual >= producto.cantidad; 
-        }));
+        const stockSuficiente = await Promise.all(
+            carrito.map(async (producto) => {
+                const productoRef = doc(db, "productos", producto.item.id);
+                const productoDoc = await getDoc(productoRef);
+                const stockActual = productoDoc.data().stock;
+                return stockActual >= producto.cantidad;
+            })
+        );
 
         if (!stockSuficiente.every(Boolean)) {
             setError("No hay suficiente stock para algunos productos.");
@@ -57,7 +59,7 @@ const Checkout = () => {
         };
 
         try {
-            // Actualizar el stock y guardar la orden en paralelo
+            // Actualizar el stock de los productos
             await Promise.all(
                 orden.items.map(async (productoOrden) => {
                     const productoRef = doc(db, "productos", productoOrden.id);
@@ -71,16 +73,14 @@ const Checkout = () => {
             );
 
             // Guardar la orden en la base de datos
-            await addDoc(collection(db, "ordenes"), orden);
-            vaciarCarrito();
+            const docRef = await addDoc(collection(db, "ordenes"), orden);
+            setOrdenId(docRef.id);  // Guardar el ID de la orden
+            vaciarCarrito();  // Vaciar el carrito
             setNombre("");
             setApellido("");
             setTelefono("");
             setEmail("");
             setEmailConfirmacion("");
-
-            // Redirigir al home
-            navigate("/"); // Redirigir a la página principal
         } catch (error) {
             console.error("Error al procesar la orden", error);
             setError("Se produjo un error al procesar la orden.");
@@ -91,45 +91,54 @@ const Checkout = () => {
         <div className="checkout-container">
             <h2>Checkout</h2>
 
-            <form onSubmit={manejadorFormulario}>
-                {carrito.map(producto => (
-                    <div key={producto.item.id} className="checkout-product">
-                        <p>{producto.item.nombre}</p>
-                        <p>{producto.item.precio} x {producto.cantidad}</p>
-                        <p>Total: ${producto.item.precio * producto.cantidad}</p>
-                        <hr />
+            {!ordenId ? ( // Mostrar formulario si no se ha completado la compra
+                <form onSubmit={manejadorFormulario}>
+                    {carrito.map(producto => (
+                        <div key={producto.item.id} className="checkout-product">
+                            <p>{producto.item.nombre}</p>
+                            <p>{producto.item.precio} x {producto.cantidad}</p>
+                            <p>Total: ${producto.item.precio * producto.cantidad}</p>
+                            <hr />
+                        </div>
+                    ))}
+
+                    <div className="checkout-field">
+                        <label>Nombre</label>
+                        <input type="text" onChange={(e) => setNombre(e.target.value)} value={nombre} />
                     </div>
-                ))}
 
-                <div className="checkout-field">
-                    <label>Nombre</label>
-                    <input type="text" onChange={(e) => setNombre(e.target.value)} value={nombre} />
-                </div>
+                    <div className="checkout-field">
+                        <label>Apellido</label>
+                        <input type="text" onChange={(e) => setApellido(e.target.value)} value={apellido} />
+                    </div>
 
-                <div className="checkout-field">
-                    <label>Apellido</label>
-                    <input type="text" onChange={(e) => setApellido(e.target.value)} value={apellido} />
-                </div>
+                    <div className="checkout-field">
+                        <label>Teléfono</label>
+                        <input type="text" onChange={(e) => setTelefono(e.target.value)} value={telefono} />
+                    </div>
 
-                <div className="checkout-field">
-                    <label>Teléfono</label>
-                    <input type="text" onChange={(e) => setTelefono(e.target.value)} value={telefono} />
-                </div>
+                    <div className="checkout-field">
+                        <label>Email</label>
+                        <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
+                    </div>
 
-                <div className="checkout-field">
-                    <label>Email</label>
-                    <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
-                </div>
+                    <div className="checkout-field">
+                        <label>Confirmación de Email</label>
+                        <input type="email" onChange={(e) => setEmailConfirmacion(e.target.value)} value={emailConfirmacion} />
+                    </div>
 
-                <div className="checkout-field">
-                    <label>Confirmación de Email</label>
-                    <input type="email" onChange={(e) => setEmailConfirmacion(e.target.value)} value={emailConfirmacion} />
-                </div>
+                    {error && <p className="error-message">{error}</p>}
 
-                {error && <p className="error-message">{error}</p>}
-
-                <button type="submit" className="checkout-button">Confirmar Compra</button>
-            </form>
+                    <button type="submit" className="checkout-button">Confirmar Compra</button>
+                </form>
+            ) : (
+                // Mostrar el ID de la compra cuando se ha finalizado
+                <div>
+                    <h3>Gracias por tu compra</h3>
+                    <p>Tu ID de orden es: <strong>{ordenId}</strong></p>
+                    <button onClick={() => navigate("/")} className="seguir-comprando-button">Seguir Comprando</button>
+                    </div>
+            )}
         </div>
     );
 };
