@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD8_SWuxYRTWcxUFIpe2UvG8brz6NgqvYI",
+    apiKey:import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: "tradicion-mate-912.firebaseapp.com",
     projectId: "tradicion-mate-912",
     storageBucket: "tradicion-mate-912.appspot.com",
