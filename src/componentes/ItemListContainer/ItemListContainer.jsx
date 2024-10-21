@@ -33,9 +33,7 @@ const ItemListContainer = () => {
 
     return (
         <div className="item-list-container">
-            <h2 style={{ textAlign: 'center' }}>Mis Productos</h2>
-
-            {/* Aquí estaba el Loader, lo eliminamos */}
+        <h2 style={{ textAlign: 'center', textDecoration: 'underline' }}>Mis Productos</h2>
             <ItemList productos={productos} />
         </div>
     );

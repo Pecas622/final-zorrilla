@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { CarritoContext } from "../../context/CarritoContext";
 import { db } from "../../services/config";
 import { collection, addDoc, updateDoc, doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import './Checkout.css';
 
 const Checkout = () => {
@@ -11,9 +12,9 @@ const Checkout = () => {
     const [email, setEmail] = useState("");
     const [emailConfirmacion, setEmailConfirmacion] = useState("");
     const [error, setError] = useState("");
-    const [ordenId, setOrdenId] = useState("");
 
     const { carrito, vaciarCarrito, total } = useContext(CarritoContext);
+    const navigate = useNavigate(); 
 
     const manejadorFormulario = async (e) => {
         e.preventDefault();
@@ -28,12 +29,12 @@ const Checkout = () => {
             return;
         }
 
-        // Verificar que hay suficiente stock
+        
         const stockSuficiente = await Promise.all(carrito.map(async (producto) => {
             const productoRef = doc(db, "productos", producto.item.id);
             const productoDoc = await getDoc(productoRef);
             const stockActual = productoDoc.data().stock;
-            return stockActual >= producto.cantidad; // Retorna true si hay suficiente stock
+            return stockActual >= producto.cantidad; 
         }));
 
         if (!stockSuficiente.every(Boolean)) {
@@ -59,7 +60,7 @@ const Checkout = () => {
             // Actualizar el stock y guardar la orden en paralelo
             await Promise.all(
                 orden.items.map(async (productoOrden) => {
-                    const productoRef = doc(db, "inventario", productoOrden.id);
+                    const productoRef = doc(db, "productos", productoOrden.id);
                     const productoDoc = await getDoc(productoRef);
                     const stockActual = productoDoc.data().stock;
 
@@ -70,14 +71,16 @@ const Checkout = () => {
             );
 
             // Guardar la orden en la base de datos
-            const docRef = await addDoc(collection(db, "ordenes"), orden);
-            setOrdenId(docRef.id);
+            await addDoc(collection(db, "ordenes"), orden);
             vaciarCarrito();
             setNombre("");
             setApellido("");
             setTelefono("");
             setEmail("");
             setEmailConfirmacion("");
+
+            // Redirigir al home
+            navigate("/"); // Redirigir a la página principal
         } catch (error) {
             console.error("Error al procesar la orden", error);
             setError("Se produjo un error al procesar la orden.");
@@ -126,10 +129,6 @@ const Checkout = () => {
                 {error && <p className="error-message">{error}</p>}
 
                 <button type="submit" className="checkout-button">Confirmar Compra</button>
-
-                {ordenId && (
-                    <strong>¡Gracias por tu compra! Tu número de orden es: {ordenId}</strong>
-                )}
             </form>
         </div>
     );

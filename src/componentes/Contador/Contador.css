@@ -1,77 +1,47 @@
-/* Reseteo general */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif; /* Tipografía más moderna */
-}
+/* Contador.css */
 
-/* Contenedor principal del contador */
 .contador-container {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    padding: 20px;
-    background-color: #f0f4f8; /* Fondo gris claro */
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    width: fit-content;
-    margin: 20px auto;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px;
 }
 
-/* Controles del contador */
-.contador-controls {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-/* Botones de control del contador (+ y -) */
-.contador-controls button {
-    background-color: #4b4949; /* Verde agua */
-    color: #ffffff;
-    font-size: 1.8rem;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+.contador-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #007BFF;
+    background-color: #007BFF;
+    color: white;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.contador-controls button:hover {
-    background-color: grey; /* Verde oscuro */
-    transform: scale(1.15);
+.contador-button:disabled {
+    background-color: #A9A9A9;
+    border-color: #A9A9A9;
+    cursor: not-allowed;
 }
 
-/* Número del contador */
-.contador-controls strong {
-    font-size: 1.8rem;
-    width: 50px;
-    text-align: center;
-    color: #333;
+.contador-strong {
+    font-size: 24px;
+    padding: 0 20px;
 }
 
-/* Botón para agregar al carrito */
-button.agregar-btn {
-    background-color: #4b4949; /* Naranja vibrante */
-    color: #ffffff;
-    font-size: 1.4rem;
-    padding: 12px 25px;
+.agregar-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
-    border-radius: 10px;
+    background-color: #28A745;
+    color: white;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-weight: 600; /* Peso del texto */
+    transition: background-color 0.3s ease;
 }
 
-button.agregar-btn:hover {
-    background-color: grey; /* Naranja oscuro */
-    transform: scale(1.1);
-}
-
-/* Efecto de enfoque (focus) para accesibilidad */
-button.agregar-btn:focus, .contador-controls button:focus {
-    outline: 3px solid white; /* Resaltado accesible */
+.agregar-button:hover {
+    background-color: #218838;
 }

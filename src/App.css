@@ -1,0 +1,6 @@
+.banner-img {
+    width: 100%; /* Se adapta al ancho del contenedor */
+    height: auto; /* Mantiene la relación de aspecto */
+    max-height: 300px; /* Limita la altura máxima */
+    object-fit: cover; /* Cubre el área sin distorsionar la imagen */
+}

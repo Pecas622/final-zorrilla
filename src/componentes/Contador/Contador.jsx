@@ -1,33 +1,25 @@
-import { useState } from "react"
-
+import { useState } from "react";
+import './Contador.css'; // Asegúrate de que la ruta sea correcta
 
 const Contador = ({ inicial, stock, funcionAgregar }) => {
-
-    const [contador, setContador] = useState(inicial)
+    const [contador, setContador] = useState(inicial);
 
     const sumarContador = () => {
-        if (contador < stock) {
-            setContador(contador + 1)
-        }
-    }
+        setContador(prevContador => (prevContador < stock ? prevContador + 1 : prevContador));
+    };
 
     const restarContador = () => {
-        if (contador > inicial) {
-            setContador(contador - 1)
-        }
-    }
+        setContador(prevContador => (prevContador > inicial ? prevContador - 1 : prevContador));
+    };
 
     return (
-        <>
-            <div>
-                <button onClick={restarContador}> - </button>
-                <strong>{contador}</strong>
-                <button onClick={sumarContador}> + </button>
-            </div>
+        <div className="contador-container">
+            <button className="contador-button" onClick={restarContador} disabled={contador <= inicial}> - </button>
+            <strong className="contador-strong">{contador}</strong>
+            <button className="contador-button" onClick={sumarContador} disabled={contador >= stock}> + </button>
+            <button className="agregar-button" onClick={() => funcionAgregar(contador)}> Agregar al carrito</button>
+        </div>
+    );
+};
 
-            <button onClick={() => funcionAgregar(contador)}> Agregar al carrito</button>
-        </>
-    )
-}
-
-export default Contador
+export default Contador;

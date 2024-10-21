@@ -10,6 +10,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Checkout from "./componentes/Checkout/Checkout";
 import imagenBanner from '/img/2.png'; 
+import './App.css';
+import Footer from "./componentes/Footer/Footer"; // Importar el Footer
 
 const App = () => {
     return (
@@ -17,29 +19,19 @@ const App = () => {
             <BrowserRouter>
                 <CarritoProvider>
                     <NavBar />
-
+                    <img
+                        src={imagenBanner}
+                        alt="Banner"
+                        className="banner-img"
+                    />
                     <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <>
-                                    <img
-                                        src={imagenBanner}
-                                        alt="Banner"
-                                        style={{ width: '100%', height: 'auto', marginTop: '10px' }}
-                                    />
-                                    <ItemListContainer />
-                                </>
-                            }
-                        />
-                        <Route
-                            path="/categoria/:idCategoria"
-                            element={<ItemListContainer />}
-                        />
-                        <Route path="/item/:idItem"element={<ItemDetailContainer />}  />
+                        <Route path="/" element={<ItemListContainer />} />
+                        <Route path="/categoria/:idCategoria" element={<ItemListContainer />} />
+                        <Route path="/item/:idItem" element={<ItemDetailContainer />} />
                         <Route path="/cart" element={<Cart />} />
                         <Route path="/checkout" element={<Checkout />} />
                     </Routes>
+                    <Footer /> 
                 </CarritoProvider>
                 <ToastContainer />
             </BrowserRouter>
